@@ -5,9 +5,127 @@
     <body data-spy="scroll" data-target=".navbar-collapse">
         <th:block th:replace="/layout/Slider.html"/>
 <!--        <th:block th:replace="/layout/Slider.html::slider(slider = ${slider})"/>-->
+        <section id="product" class="bg-grey roomy-60 fix">
+            <div class="container">
+                <div class="row">
+                    <div class="main_business">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="head_title text-center fix">
+                                <h2 class="text-uppercase">About</h2>
+                                <h5>고객의 발전을 위해 최선을 다하고 성원에 보답할 수 있도록 노력하겠습니다.</h5>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="widget_item widget_latest sm-m-top-50">
+                                <h5 class="text-uppercase">공지사항</h5>
+                                <div class="widget_latst_item m-top-30">
+                                    <div class="item_icon"><img src="assets/images/ltst-img-1.jpg" alt=""></div>
+                                    <div class="widget_latst_item_text">
+                                        <p>Lorem ipsum dolor sit amet, consectetur</p>
+                                        <a href="">21<sup>th</sup> July 2016</a>
+                                    </div>
+                                </div>
+                                <div class="widget_latst_item m-top-30">
+                                    <div class="item_icon"><img src="assets/images/ltst-img-2.jpg" alt=""></div>
+                                    <div class="widget_latst_item_text">
+                                        <p>Lorem ipsum dolor sit amet, consectetur</p>
+                                        <a href="">21<sup>th</sup> July 2016</a>
+                                    </div>
+                                </div>
+                                <div class="widget_latst_item m-top-30">
+                                    <div class="item_icon"><img src="assets/images/ltst-img-3.jpg" alt=""></div>
+                                    <div class="widget_latst_item_text">
+                                        <p>Lorem ipsum dolor sit amet, consectetur</p>
+                                        <a href="">21<sup>th</sup> July 2016</a>
+                                    </div>
+                                </div>
+                                <div class="widget_latst_item m-top-30">
+                                    <div class="item_icon"><img src="assets/images/ltst-img-3.jpg" alt=""></div>
+                                    <div class="widget_latst_item_text">
+                                        <p>Lorem ipsum dolor sit amet, consectetur</p>
+                                        <a href="">21<sup>th</sup> July 2016</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="fix sm-m-top-30" style="border: solid 1px rgba(167,167,167,0.96); padding: 20px; margin-top: 20px;">
+                                <div class="item_text">
+                                    <h3><strong>회사소개</strong></h3>
+                                    <p style="margin-bottom: 0px;">끊임없는 연구개발을 통해 고객 여러분의 욕구를 충족시킬 수 있는</p>
+                                    <p>최고의 제품만을 제공할 것을 약속드립니다.</p>
+                                </div>
+                            </div>
+                            <div class="test_item fix sm-m-top-30" style="background-color: rgba(215,24,42,0.96); padding: 20px; margin-top: 20px;">
+                                <div class="item_text">
+                                    <h3><strong>오시는길</strong></h3>
+                                    <p class="text-white" style="margin-bottom: 0px;">대한민국 어딘가</p>
+                                    <p class="text-white">상세주소(지번 : 몰?루)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- End off container -->
+        </section>
 
-            <th:block th:replace="/layout/Footer.html"/>
+        <section id="test" class="roomy-60 fix">
+            <div class="container">
+                <div class="main_product">
+                    <div class="head_title text-center fix">
+                        <h2 class="text-uppercase">Products</h2>
+                        <h5>자동차 부품 제조업체 윈테크코리아의 제품을 소개합니다.</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="port_item xs-m-top-30">
+                            <div class="port_img">
+                                <img src="assets/images/work-img4.jpg" alt="" />
+                            </div>
+                            <div class="port_overlay text-center m-top-10">
+                                <h5>Your Work Title</h5>
+                                <h6>- Graphic Design</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="port_item xs-m-top-30">
+                            <div class="port_img">
+                                <img src="assets/images/work-img4.jpg" alt="" />
+                            </div>
+                            <div class="port_overlay text-center m-top-10">
+                                <h5>Your Work Title</h5>
+                                <h6>- Graphic Design</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="port_item xs-m-top-30">
+                            <div class="port_img">
+                                <img src="assets/images/work-img4.jpg" alt="" />
+                            </div>
+                            <div class="port_overlay text-center m-top-10">
+                                <h5>Your Work Title</h5>
+                                <h6>- Graphic Design</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="port_item xs-m-top-30">
+                            <div class="port_img">
+                                <img src="assets/images/work-img4.jpg" alt="" />
+                            </div>
+                            <div class="port_overlay text-center m-top-10">
+                                <h5>Your Work Title</h5>
+                                <h6>- Graphic Design</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- End off container -->
+        </section>
+        <th:block th:replace="/layout/Footer.html"/>
 <!--            <th:block th:replace="/layout/Footer.html::mainFooter(footer = ${footer})"/>-->
-        </div>
     </body>
 </html>
