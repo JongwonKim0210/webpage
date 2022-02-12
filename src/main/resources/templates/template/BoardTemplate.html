@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <link rel="stylesheet" href="isotope/table.css">
+<!--    아래 스타일시트는 나중에 삭제해도 됨(탭메뉴 구현때문에 일시적으로 추가한 스타일시트)-->
+    <link rel="stylesheet" href="isotope/style.css">
+    <th:block th:replace="/layout/Header.html"/>
+<!--    <th:block th:replace="/layout/Header.html::mainHeader(header = ${header})"/>-->
+    <body>
+        <section id="tab_menu" class="bg-grey roomy-40 fix" style="padding-top: 60px;">
+            <div class="container">
+                <div class="main_product p-top-100">
+                    <div class="head_title text-center fix">
+                        <h2 class="text-uppercase">Some Menu Name</h2>
+<!--                        <h5>자동차 부품 제조업체 윈테크코리아의 제품을 소개합니다.</h5>-->
+                    </div>
+                </div>
+                <ul id="portfolio_menu" class="menu portfolio_custom_menu">
+                    <li>
+                        <button data-filter="*" class="my_btn btn_active">Show All</button>
+                    </li>
+                    <li>
+                        <button data-filter=".blue, .black, .green" class="my_btn">environment</button>
+                    </li>
+                    <li>
+                        <button data-filter=".red, .green" class="my_btn">climate</button>
+                    </li>
+                    <li>
+                        <button data-filter=".blue, .yellow, .black" class="my_btn">photography</button>
+                    </li>
+                    <li>
+                        <button data-filter=".black" class="my_btn">species</button>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="board" class="roomy-60 fix">
+            <div class="container">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Price</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Item1</td>
+                            <td>Ante turpis integer aliquet porttitor.</td>
+                            <td>29.99</td>
+                        </tr>
+                        <tr>
+                            <td>Item2</td>
+                            <td>Vis ac commodo adipiscing arcu aliquet.</td>
+                            <td>19.99</td>
+                        </tr>
+                        <tr>
+                            <td>Item3</td>
+                            <td> Morbi faucibus arcu accumsan lorem.</td>
+                            <td>29.99</td>
+                        </tr>
+                        <tr>
+                            <td>Item4</td>
+                            <td>Vitae integer tempus condimentum.</td>
+                            <td>19.99</td>
+                        </tr>
+                        <tr>
+                            <td>Item5</td>
+                            <td>Ante turpis integer aliquet porttitor.</td>
+                            <td>29.99</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="pagination">
+                        <!--<a href="#" class="button previous">Previous Page</a>-->
+                        <div class="pages">
+                            <a href="#" class="active">1</a>
+                            <a href="#">2</a>
+                            <a href="#">3</a>
+                            <a href="#">4</a>
+                            <span>…</span>
+                            <a href="#">20</a>
+                        </div>
+                        <a href="#" class="button next">Next Page</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <th:block th:replace="/layout/Footer.html"/>
+<!--            <th:block th:replace="/layout/Footer.html::mainFooter(footer = ${footer})"/>-->
+    </body>
+</html>

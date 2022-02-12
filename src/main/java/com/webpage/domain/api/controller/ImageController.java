@@ -1,6 +1,6 @@
-package com.webpage.api.controller;
+package com.webpage.domain.api.controller;
 
-import com.webpage.api.service.ImageService;
+import com.webpage.domain.api.service.ImageService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;

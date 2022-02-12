@@ -1,6 +1,6 @@
-package com.webpage.api.service.impl;
+package com.webpage.domain.api.service.impl;
 
-import com.webpage.api.service.ImageService;
+import com.webpage.domain.api.service.ImageService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FilenameUtils;

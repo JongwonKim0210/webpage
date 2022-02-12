@@ -1,4 +1,4 @@
-package com.webpage.api.service;
+package com.webpage.domain.api.service;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
