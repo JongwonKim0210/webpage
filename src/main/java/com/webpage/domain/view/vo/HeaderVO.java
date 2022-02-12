@@ -1,5 +1,6 @@
-package com.webpage.domain.view.dto;
+package com.webpage.domain.view.vo;
 
+import com.webpage.domain.view.dto.MenuListDTO;
 import com.webpage.domain.view.entity.MenuListEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +17,7 @@ public class HeaderVO {
     public void setMenuList(List<MenuListEntity> entityList) {
         menuList = new ArrayList<>();
         for (MenuListEntity e : entityList) {
-            menuList.add(e.convertToTopMenuListDTO());
+            menuList.add(e.convertToMenuListDTO());
         }
     }
 }

@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface TopMenuListRepository extends JpaRepository<MenuListEntity, Integer> {
+public interface MenuListRepository extends JpaRepository<MenuListEntity, Integer> {
     List<MenuListEntity> findAllByOrderByMenuOrder();
 }

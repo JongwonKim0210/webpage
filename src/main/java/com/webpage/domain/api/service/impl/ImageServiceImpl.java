@@ -4,6 +4,7 @@ import com.webpage.domain.api.service.ImageService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
@@ -13,8 +14,14 @@ import java.nio.charset.StandardCharsets;
 
 @Service
 public class ImageServiceImpl implements ImageService {
+
+    @Value("${image.dir}")
+    private String dirPath;
+
     @Override
-    public void getImageData(HttpServletRequest request, HttpServletResponse response) {
+    public void getImageData(HttpServletRequest request, HttpServletResponse response, int menuId, int tabId, Long imageId) {
+        // TODO : menuId, tabId, imageId로 이미지파일 경로얻어서 이미지 불러오기
+
         File imageFile = new File("");
         try (BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(imageFile)); BufferedOutputStream outputStream = new BufferedOutputStream(response.getOutputStream())) {
             if (imageFile.exists()) {

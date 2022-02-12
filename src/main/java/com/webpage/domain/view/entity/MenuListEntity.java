@@ -26,7 +26,7 @@ public class MenuListEntity {
     @Column(name = "menuOrder", nullable = false)
     private Integer menuOrder;
 
-    public MenuListDTO convertToTopMenuListDTO() {
+    public MenuListDTO convertToMenuListDTO() {
         return MenuListDTO.builder().id(id).menuName(menuName)
                 .menuComment(menuComment).menuOrder(menuOrder).build();
     }

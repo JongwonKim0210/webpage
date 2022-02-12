@@ -2,6 +2,8 @@ package com.webpage.domain.view.service;
 
 import org.springframework.ui.Model;
 
+import java.util.Map;
+
 public interface ViewService {
 
     void setCommonLayer(Model model, boolean isHeader, boolean isFooter);

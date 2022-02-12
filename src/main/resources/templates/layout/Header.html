@@ -70,7 +70,7 @@
 					<div class="collapse navbar-collapse" id="navbar-menu">
 						<ul class="nav navbar-nav navbar-right">
 							<li th:each="menu : ${header.menuList}">
-								<a th:href="@{/details(id=${menu.id})}"><th:block th:text="${menu.menuName}"></th:block></a>
+								<a th:href="@{/details/{menuId}/1 (menuId=${menu.id})}"><th:block th:text="${menu.menuName}"></th:block></a>
 							</li>
 						</ul>
 					</div>
