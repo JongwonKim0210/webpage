@@ -11,6 +11,7 @@ public class ViewVO {
 
     private int menuId;
     private int tabId;
+    private String tabName;
     private int templateType;
 
 }

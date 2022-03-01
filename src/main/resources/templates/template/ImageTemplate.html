@@ -12,21 +12,11 @@
 <!--                        <h5>자동차 부품 제조업체 윈테크코리아의 제품을 소개합니다.</h5>-->
                     </div>
                 </div>
-                <ul id="portfolio_menu" class="menu portfolio_custom_menu">
-                    <li>
-                        <button data-filter="*" class="my_btn btn_active">Show All</button>
-                    </li>
-                    <li>
-                        <button data-filter=".blue, .black, .green" class="my_btn">environment</button>
-                    </li>
-                    <li>
-                        <button data-filter=".red, .green" class="my_btn">climate</button>
-                    </li>
-                    <li>
-                        <button data-filter=".blue, .yellow, .black" class="my_btn">photography</button>
-                    </li>
-                    <li>
-                        <button data-filter=".black" class="my_btn">species</button>
+                <ul id="portfolio_menu" class="menu" style="text-align: center;">
+                    <li th:each="tab : ${tabList}" style="display: inline-block;">
+                        <button th:href="@{/details/{id}/{tabId} (id=${tab.menuId}, tabId=${tab.tabId})}" data-filter="*" class="my_btn btn_active" style="margin-left: 10px; margin-right: 10px;">
+                            <th:block th:text="${tab.tabName}"></th:block>
+                        </button>
                     </li>
                 </ul>
             </div>
@@ -34,191 +24,203 @@
 
         <section id="tab_gallery" class="roomy-60 fix">
             <div class="container">
-<!--                이하 아래 반복작업 구역-->
-                <div class="row">
-                    <div class="col-sm-3">
+                <div class="row" th:each="row : ${tabData}">
+                    <div class="col-sm-3" th:each="image : ${row}">
                         <div class="port_item xs-m-top-30">
                             <div class="port_img">
-                                <img src="assets/images/work-img4.jpg" alt="" />
+                                <img th:src="@{/assets/images/work-img4.jpg}" th:alt="${image.name}" />
                             </div>
                             <div class="port_overlay text-center m-top-10">
-                                <h5>Your Work Title</h5>
-                                <h6>- Graphic Design</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="port_item xs-m-top-30">
-                            <div class="port_img">
-                                <img src="assets/images/work-img4.jpg" alt="" />
-                            </div>
-                            <div class="port_overlay text-center m-top-10">
-                                <h5>Your Work Title</h5>
-                                <h6>- Graphic Design</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="port_item xs-m-top-30">
-                            <div class="port_img">
-                                <img src="assets/images/work-img4.jpg" alt="" />
-                            </div>
-                            <div class="port_overlay text-center m-top-10">
-                                <h5>Your Work Title</h5>
-                                <h6>- Graphic Design</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="port_item xs-m-top-30">
-                            <div class="port_img">
-                                <img src="assets/images/work-img4.jpg" alt="" />
-                            </div>
-                            <div class="port_overlay text-center m-top-10">
-                                <h5>Your Work Title</h5>
-                                <h6>- Graphic Design</h6>
+                                <h5><th:block th:text="${image.name}"></th:block></h5>
+<!--                                <h6>- Graphic Design</h6>-->
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-3">
-                        <div class="port_item xs-m-top-30">
-                            <div class="port_img">
-                                <img src="assets/images/work-img4.jpg" alt="" />
-                            </div>
-                            <div class="port_overlay text-center m-top-10">
-                                <h5>Your Work Title</h5>
-                                <h6>- Graphic Design</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="port_item xs-m-top-30">
-                            <div class="port_img">
-                                <img src="assets/images/work-img4.jpg" alt="" />
-                            </div>
-                            <div class="port_overlay text-center m-top-10">
-                                <h5>Your Work Title</h5>
-                                <h6>- Graphic Design</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="port_item xs-m-top-30">
-                            <div class="port_img">
-                                <img src="assets/images/work-img4.jpg" alt="" />
-                            </div>
-                            <div class="port_overlay text-center m-top-10">
-                                <h5>Your Work Title</h5>
-                                <h6>- Graphic Design</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="port_item xs-m-top-30">
-                            <div class="port_img">
-                                <img src="assets/images/work-img4.jpg" alt="" />
-                            </div>
-                            <div class="port_overlay text-center m-top-10">
-                                <h5>Your Work Title</h5>
-                                <h6>- Graphic Design</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-3">
-                        <div class="port_item xs-m-top-30">
-                            <div class="port_img">
-                                <img src="assets/images/work-img4.jpg" alt="" />
-                            </div>
-                            <div class="port_overlay text-center m-top-10">
-                                <h5>Your Work Title</h5>
-                                <h6>- Graphic Design</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="port_item xs-m-top-30">
-                            <div class="port_img">
-                                <img src="assets/images/work-img4.jpg" alt="" />
-                            </div>
-                            <div class="port_overlay text-center m-top-10">
-                                <h5>Your Work Title</h5>
-                                <h6>- Graphic Design</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="port_item xs-m-top-30">
-                            <div class="port_img">
-                                <img src="assets/images/work-img4.jpg" alt="" />
-                            </div>
-                            <div class="port_overlay text-center m-top-10">
-                                <h5>Your Work Title</h5>
-                                <h6>- Graphic Design</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="port_item xs-m-top-30">
-                            <div class="port_img">
-                                <img src="assets/images/work-img4.jpg" alt="" />
-                            </div>
-                            <div class="port_overlay text-center m-top-10">
-                                <h5>Your Work Title</h5>
-                                <h6>- Graphic Design</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-3">
-                        <div class="port_item xs-m-top-30">
-                            <div class="port_img">
-                                <img src="assets/images/work-img4.jpg" alt="" />
-                            </div>
-                            <div class="port_overlay text-center m-top-10">
-                                <h5>Your Work Title</h5>
-                                <h6>- Graphic Design</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="port_item xs-m-top-30">
-                            <div class="port_img">
-                                <img src="assets/images/work-img4.jpg" alt="" />
-                            </div>
-                            <div class="port_overlay text-center m-top-10">
-                                <h5>Your Work Title</h5>
-                                <h6>- Graphic Design</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="port_item xs-m-top-30">
-                            <div class="port_img">
-                                <img src="assets/images/work-img4.jpg" alt="" />
-                            </div>
-                            <div class="port_overlay text-center m-top-10">
-                                <h5>Your Work Title</h5>
-                                <h6>- Graphic Design</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="port_item xs-m-top-30">
-                            <div class="port_img">
-                                <img src="assets/images/work-img4.jpg" alt="" />
-                            </div>
-                            <div class="port_overlay text-center m-top-10">
-                                <h5>Your Work Title</h5>
-                                <h6>- Graphic Design</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<!--                <div class="row">-->
+<!--                    <div class="col-sm-3">-->
+<!--                        <div class="port_item xs-m-top-30">-->
+<!--                            <div class="port_img">-->
+<!--                                <img src="assets/images/work-img4.jpg" alt="" />-->
+<!--                            </div>-->
+<!--                            <div class="port_overlay text-center m-top-10">-->
+<!--                                <h5>Your Work Title</h5>-->
+<!--                                <h6>- Graphic Design</h6>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-sm-3">-->
+<!--                        <div class="port_item xs-m-top-30">-->
+<!--                            <div class="port_img">-->
+<!--                                <img src="assets/images/work-img4.jpg" alt="" />-->
+<!--                            </div>-->
+<!--                            <div class="port_overlay text-center m-top-10">-->
+<!--                                <h5>Your Work Title</h5>-->
+<!--                                <h6>- Graphic Design</h6>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-sm-3">-->
+<!--                        <div class="port_item xs-m-top-30">-->
+<!--                            <div class="port_img">-->
+<!--                                <img src="assets/images/work-img4.jpg" alt="" />-->
+<!--                            </div>-->
+<!--                            <div class="port_overlay text-center m-top-10">-->
+<!--                                <h5>Your Work Title</h5>-->
+<!--                                <h6>- Graphic Design</h6>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-sm-3">-->
+<!--                        <div class="port_item xs-m-top-30">-->
+<!--                            <div class="port_img">-->
+<!--                                <img src="assets/images/work-img4.jpg" alt="" />-->
+<!--                            </div>-->
+<!--                            <div class="port_overlay text-center m-top-10">-->
+<!--                                <h5>Your Work Title</h5>-->
+<!--                                <h6>- Graphic Design</h6>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="row">-->
+<!--                    <div class="col-sm-3">-->
+<!--                        <div class="port_item xs-m-top-30">-->
+<!--                            <div class="port_img">-->
+<!--                                <img src="assets/images/work-img4.jpg" alt="" />-->
+<!--                            </div>-->
+<!--                            <div class="port_overlay text-center m-top-10">-->
+<!--                                <h5>Your Work Title</h5>-->
+<!--                                <h6>- Graphic Design</h6>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-sm-3">-->
+<!--                        <div class="port_item xs-m-top-30">-->
+<!--                            <div class="port_img">-->
+<!--                                <img src="assets/images/work-img4.jpg" alt="" />-->
+<!--                            </div>-->
+<!--                            <div class="port_overlay text-center m-top-10">-->
+<!--                                <h5>Your Work Title</h5>-->
+<!--                                <h6>- Graphic Design</h6>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-sm-3">-->
+<!--                        <div class="port_item xs-m-top-30">-->
+<!--                            <div class="port_img">-->
+<!--                                <img src="assets/images/work-img4.jpg" alt="" />-->
+<!--                            </div>-->
+<!--                            <div class="port_overlay text-center m-top-10">-->
+<!--                                <h5>Your Work Title</h5>-->
+<!--                                <h6>- Graphic Design</h6>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-sm-3">-->
+<!--                        <div class="port_item xs-m-top-30">-->
+<!--                            <div class="port_img">-->
+<!--                                <img src="assets/images/work-img4.jpg" alt="" />-->
+<!--                            </div>-->
+<!--                            <div class="port_overlay text-center m-top-10">-->
+<!--                                <h5>Your Work Title</h5>-->
+<!--                                <h6>- Graphic Design</h6>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="row">-->
+<!--                    <div class="col-sm-3">-->
+<!--                        <div class="port_item xs-m-top-30">-->
+<!--                            <div class="port_img">-->
+<!--                                <img src="assets/images/work-img4.jpg" alt="" />-->
+<!--                            </div>-->
+<!--                            <div class="port_overlay text-center m-top-10">-->
+<!--                                <h5>Your Work Title</h5>-->
+<!--                                <h6>- Graphic Design</h6>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-sm-3">-->
+<!--                        <div class="port_item xs-m-top-30">-->
+<!--                            <div class="port_img">-->
+<!--                                <img src="assets/images/work-img4.jpg" alt="" />-->
+<!--                            </div>-->
+<!--                            <div class="port_overlay text-center m-top-10">-->
+<!--                                <h5>Your Work Title</h5>-->
+<!--                                <h6>- Graphic Design</h6>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-sm-3">-->
+<!--                        <div class="port_item xs-m-top-30">-->
+<!--                            <div class="port_img">-->
+<!--                                <img src="assets/images/work-img4.jpg" alt="" />-->
+<!--                            </div>-->
+<!--                            <div class="port_overlay text-center m-top-10">-->
+<!--                                <h5>Your Work Title</h5>-->
+<!--                                <h6>- Graphic Design</h6>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-sm-3">-->
+<!--                        <div class="port_item xs-m-top-30">-->
+<!--                            <div class="port_img">-->
+<!--                                <img src="assets/images/work-img4.jpg" alt="" />-->
+<!--                            </div>-->
+<!--                            <div class="port_overlay text-center m-top-10">-->
+<!--                                <h5>Your Work Title</h5>-->
+<!--                                <h6>- Graphic Design</h6>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="row">-->
+<!--                    <div class="col-sm-3">-->
+<!--                        <div class="port_item xs-m-top-30">-->
+<!--                            <div class="port_img">-->
+<!--                                <img src="assets/images/work-img4.jpg" alt="" />-->
+<!--                            </div>-->
+<!--                            <div class="port_overlay text-center m-top-10">-->
+<!--                                <h5>Your Work Title</h5>-->
+<!--                                <h6>- Graphic Design</h6>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-sm-3">-->
+<!--                        <div class="port_item xs-m-top-30">-->
+<!--                            <div class="port_img">-->
+<!--                                <img src="assets/images/work-img4.jpg" alt="" />-->
+<!--                            </div>-->
+<!--                            <div class="port_overlay text-center m-top-10">-->
+<!--                                <h5>Your Work Title</h5>-->
+<!--                                <h6>- Graphic Design</h6>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-sm-3">-->
+<!--                        <div class="port_item xs-m-top-30">-->
+<!--                            <div class="port_img">-->
+<!--                                <img src="assets/images/work-img4.jpg" alt="" />-->
+<!--                            </div>-->
+<!--                            <div class="port_overlay text-center m-top-10">-->
+<!--                                <h5>Your Work Title</h5>-->
+<!--                                <h6>- Graphic Design</h6>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-sm-3">-->
+<!--                        <div class="port_item xs-m-top-30">-->
+<!--                            <div class="port_img">-->
+<!--                                <img src="assets/images/work-img4.jpg" alt="" />-->
+<!--                            </div>-->
+<!--                            <div class="port_overlay text-center m-top-10">-->
+<!--                                <h5>Your Work Title</h5>-->
+<!--                                <h6>- Graphic Design</h6>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
             </div><!-- End off container -->
         </section>
         <th:block th:replace="/layout/Footer.html"/>

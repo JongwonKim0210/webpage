@@ -1,8 +1,11 @@
 package com.webpage.domain.view.service.impl;
 
 import com.webpage.domain.view.dto.FooterDTO;
+import com.webpage.domain.view.dto.ImageListDTO;
 import com.webpage.domain.view.dto.TabListDTO;
+import com.webpage.domain.view.entity.ImageListEntity;
 import com.webpage.domain.view.entity.TabListEntity;
+import com.webpage.domain.view.repository.ImageListRepository;
 import com.webpage.domain.view.vo.HeaderVO;
 import com.webpage.domain.view.entity.CompanyInfo;
 import com.webpage.domain.view.entity.MenuListEntity;
@@ -24,12 +27,13 @@ import java.util.Map;
 @AllArgsConstructor
 public class ViewServiceImpl implements ViewService {
 
-    @Value("${notice}")
+    @Value("#{${notice}}")
     Map<String, Integer> noticeInfo;
 
     private CompanyInfoRepository companyInfo;
     private MenuListRepository menuList;
     private TabListRepository tabList;
+    private ImageListRepository imageList;
 
     @Override
     public void setCommonLayer(Model model, boolean isHeader, boolean isFooter) {
@@ -56,30 +60,54 @@ public class ViewServiceImpl implements ViewService {
 
     @Override
     public void setNoticeList(Model model) {
-
+        setCommonLayer(model, true, true);
+//        noticeInfo;   // 공지사항 목록 표시(메인화면에 표시할 항목임 / 나중에 menuId, tabId 확정되면 properties 파일 수정해야됨
     }
 
     @Override
     public String setViewPage(Model model, int menuId, int tabId) {
+        setCommonLayer(model, true, true);
+
         List<TabListEntity> entityList = tabList.findAllByMenuIdOrderByTabOrder(menuId);
         TabListEntity entity = tabList.findByIdAndMenuId(tabId, menuId);
         StringBuilder templatePath = new StringBuilder("template/");
-
-        if (entity.convertToTabListDTO().getTemplateType() == 1) {
-            templatePath.append("ImageTemplate");
-        } else {
-            templatePath.append("BoardTemplate");
+        // TODO : DB 데이터가 없어서 현재 예외 발생 중
+        switch (entity.convertToTabListDTO().getTemplateType()) {
+            case 0 -> templatePath.append("CompanyInfo");
+            case 1 -> templatePath.append("ImageTemplate");
+            case 2 -> templatePath.append("BoardTemplate");
         }
 
         List<ViewVO> viewVOList = new ArrayList<>();
         for (TabListEntity e : entityList) {
             TabListDTO tabListDTO = e.convertToTabListDTO();
-            viewVOList.add(ViewVO.builder().menuId(menuId).tabId(tabListDTO.getId()).templateType(tabListDTO.getTemplateType()).build());
+            viewVOList.add(ViewVO.builder().menuId(menuId).tabId(tabListDTO.getId()).tabName(tabListDTO.getTabName()).templateType(tabListDTO.getTemplateType()).build());
         }
 
-        model.addAttribute("tabInfo", viewVOList);
-        // TODO : 이상 탭 생성에 관한 데이터처리 완료(?) 이하 해당 탭에 대한 정보 조회해서 던져줄 것
-
+        model.addAttribute("menuId", menuId);
+        model.addAttribute("tabList", viewVOList);
+        model.addAttribute("tabData", getTabData(menuId, tabId, entity.convertToTabListDTO().getTemplateType()));
         return templatePath.toString();
+    }
+
+    private List getTabData(int menuId, int tabId, int templateType) {
+        List mainList = mainList = new ArrayList<List<?>>();;
+        if (templateType == 1) {
+            List<ImageListEntity> entities = imageList.findAllByMenuIdAndTabId(menuId, tabId);
+            for (int i = 0; i < entities.size(); i++) {
+                List<ImageListDTO> images = new ArrayList<>();
+                if ((i + 1) % 4 == 0) {
+                    mainList.add(images);
+                    images = new ArrayList<>();
+                }
+
+                images.add(entities.get(i).convertToImageListDTO());
+                // TODO : 이미지 경로 확인해서 API 연결시켜놓기
+            }
+        } else if (templateType == 2) {
+
+        }
+
+        return mainList;
     }
 }
