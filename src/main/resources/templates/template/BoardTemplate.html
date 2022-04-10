@@ -1,36 +1,16 @@
 <!doctype html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-    <link rel="stylesheet" href="isotope/table.css">
-<!--    아래 스타일시트는 나중에 삭제해도 됨(탭메뉴 구현때문에 일시적으로 추가한 스타일시트)-->
-    <link rel="stylesheet" href="isotope/style.css">
     <th:block th:replace="/layout/Header.html"/>
-<!--    <th:block th:replace="/layout/Header.html::mainHeader(header = ${header})"/>-->
     <body>
-        <section id="tab_menu" class="bg-grey roomy-40 fix" style="padding-top: 60px;">
+<!--        <section id="tab_menu" class="bg-grey roomy-40 fix" style="padding-top: 60px;">-->
+        <section id="tab_menu" class="bg-grey fix" style="padding-top: 60px;">
             <div class="container">
                 <div class="main_product p-top-100">
                     <div class="head_title text-center fix">
-                        <h2 class="text-uppercase">Some Menu Name</h2>
-<!--                        <h5>자동차 부품 제조업체 윈테크코리아의 제품을 소개합니다.</h5>-->
+                        <h2 class="text-uppercase" th:text="${menuInfo.menuName}"></h2>
+                        <h5 th:if="${'' != menuInfo.menuTitle || null != menuInfo.menuTitle}" th:text="${menuInfo.menuTitle}"></h5>
                     </div>
                 </div>
-                <ul id="portfolio_menu" class="menu portfolio_custom_menu">
-                    <li>
-                        <button data-filter="*" class="my_btn btn_active">Show All</button>
-                    </li>
-                    <li>
-                        <button data-filter=".blue, .black, .green" class="my_btn">environment</button>
-                    </li>
-                    <li>
-                        <button data-filter=".red, .green" class="my_btn">climate</button>
-                    </li>
-                    <li>
-                        <button data-filter=".blue, .yellow, .black" class="my_btn">photography</button>
-                    </li>
-                    <li>
-                        <button data-filter=".black" class="my_btn">species</button>
-                    </li>
-                </ul>
             </div>
         </section>
 
@@ -38,57 +18,74 @@
             <div class="container">
                 <div class="table-wrapper">
                     <table>
+                        <colgroup>
+                            <col class="table-05">
+                            <col class="table-50">
+                            <col class="table-10">
+                            <col class="table-10">
+                        </colgroup>
                         <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Price</th>
-                        </tr>
+                            <tr>
+                                <th class="text-center">번호</th>
+                                <th class="text-center">제목</th>
+                                <th class="text-center">작성자</th>
+                                <th class="text-center">작성일자</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>Item1</td>
-                            <td>Ante turpis integer aliquet porttitor.</td>
-                            <td>29.99</td>
-                        </tr>
-                        <tr>
-                            <td>Item2</td>
-                            <td>Vis ac commodo adipiscing arcu aliquet.</td>
-                            <td>19.99</td>
-                        </tr>
-                        <tr>
-                            <td>Item3</td>
-                            <td> Morbi faucibus arcu accumsan lorem.</td>
-                            <td>29.99</td>
-                        </tr>
-                        <tr>
-                            <td>Item4</td>
-                            <td>Vitae integer tempus condimentum.</td>
-                            <td>19.99</td>
-                        </tr>
-                        <tr>
-                            <td>Item5</td>
-                            <td>Ante turpis integer aliquet porttitor.</td>
-                            <td>29.99</td>
-                        </tr>
+                            <tr th:each="row, index : ${tabData.content}">
+                                <td class="text-center" th:text="${index.index + 1}"></td>
+                                <td th:text="${row.title}" onclick="showDetail(this)" data-th-attr="item1=${row.id}"></td>
+                                <td class="text-center" th:text="${row.writer}"></td>
+                                <td class="text-center" th:text="${#calendars.format(row.writeDate, 'yyyy-MM-dd')}"></td>
+                            </tr>
                         </tbody>
                     </table>
-                    <div class="pagination">
-                        <!--<a href="#" class="button previous">Previous Page</a>-->
-                        <div class="pages">
-                            <a href="#" class="active">1</a>
-                            <a href="#">2</a>
-                            <a href="#">3</a>
-                            <a href="#">4</a>
-                            <span>…</span>
-                            <a href="#">20</a>
-                        </div>
-                        <a href="#" class="button next">Next Page</a>
-                    </div>
+                </div>
+            </div>
+            <!-- End off container -->
+
+            <div class="container text-center fix">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li class="page-item" item="Pre">
+                            <a class="page-link" aria-label="Previous" onclick="movePrev()" th:value="${((tabData.pageable.offset / 10) + 1)}">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                        <th:block th:if="${tabData.totalPages == 1 || tabData.totalPages == 0}">
+                            <li class="page-item active">
+                                <a class="page-link" style="cursor: pointer;" th:value="1" th:text="1" onclick="movePage(this)"></a>
+                            </li>
+                        </th:block>
+                        <th:block th:unless="${tabData.totalPages == 1 || tabData.totalPages == 0}">
+                            <th:block th:each="num : ${#numbers.sequence(((((tabData.pageable.offset) / 10) / 10) * 10) + 1, ((((tabData.totalPages / 10) * 10) + 10) - ((tabData.pageable.offset) / 10) <= 10) ? tabData.totalPages : (((((tabData.pageable.offset) + 1) / 10) / 10) * 10) + 10)}">
+                                <li class="page-item" th:if="${num != (1 + tabData.pageable.pageNumber)}">
+                                    <a class="page-link" style="cursor: pointer;" th:value="${num}" th:text="${num}" onclick="movePage(this)"></a>
+                                </li>
+                                <li class="page-item active" th:if="${num == (1 + tabData.pageable.pageNumber)}">
+                                    <a class="page-link" style="cursor: pointer;" th:value="${num}" th:text="${num}" onclick="movePage(this)"></a>
+                                </li>
+                            </th:block>
+                        </th:block>
+                        <li class="page-item" item="Next">
+                            <a class="page-link" aria-label="Next" onclick="moveNext()" th:value="${tabData.totalPages}">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="container text-right fix">
+                <div class="business_btn">
+                    <a th:href="@{/board/new/{menuId}/{tabId} (menuId=${menuId}, tabId=${tabId})}" class="btn button">작성</a>
                 </div>
             </div>
         </section>
+
         <th:block th:replace="/layout/Footer.html"/>
-<!--            <th:block th:replace="/layout/Footer.html::mainFooter(footer = ${footer})"/>-->
     </body>
 </html>

@@ -11,3 +11,105 @@ ul.menu li {
 ul.menu li button {
     padding: 6px 20px;
 }
+
+.image {
+    border-radius: 0.375em;
+    border: 0;
+    display: inline-block;
+    position: relative;
+}
+
+.main {
+    display: block;
+    margin: 0 0 3em 0;
+    width: 100%;
+}
+
+.image-list {
+    width: 100%;
+    height: 170px;
+    object-fit: contain;
+}
+.image-view {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: top;
+    padding-bottom: 20px;
+}
+
+.board-title {
+    color: #3d4449;
+    font-weight: 700;
+    line-height: 1.5;
+    margin: 0 0 1em 0;
+    font-size: 1.75em;
+}
+.board-info {
+    color: #3d4449;
+    font-weight: 700;
+    line-height: 1.5;
+    margin: 0 0 1em 0;
+    font-size: 1.1em;
+}
+.board-body {
+    color: #7f888f;
+    margin: 0 0 2em 0;
+}
+.button {
+    color: #fff;
+    background-color: #a7a7a7;
+    border:1px solid;
+    border-color: #a7a7a7;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.button:hover{
+    background-color: #eee;
+    border-color: #eee;
+    color: #a7a7a7;
+}
+
+select {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    -ms-appearance: none;
+    background-image: url("../images/default/select btn icn.svg");
+    background-size: 1.25em;
+    background-repeat: no-repeat;
+    background-position: calc(100% - 1em) center;
+    height: 2.75em;
+    padding-right: 2.75em;
+    text-overflow: ellipsis;
+    width: 200px;
+    border-radius: 0.375em;
+    border: none;
+    border: solid 1px rgba(210, 215, 217, 0.75);
+    appearance: none;
+    color: inherit;
+    outline: 0;
+    padding: 0 1em;
+}
+select option {
+    color: #3d4449;
+    background: #ffffff;
+}
+select:focus::-ms-value {
+    background-color: transparent;
+}
+select::-ms-expand {
+    display: none;
+}
+
+input[type="file"] {
+    margin-left: 10px;
+    direction: rtl;
+}
+input[type="file"]::-webkit-file-upload-button {
+    line-height: 18px;
+    padding: 0px 10px;
+    border: none;
+    float: right;
+}

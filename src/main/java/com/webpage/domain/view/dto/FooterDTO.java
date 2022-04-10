@@ -1,14 +1,18 @@
 package com.webpage.domain.view.dto;
 
 import com.webpage.domain.view.entity.FooterEntity;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class FooterDTO {
 
     private String companyName;

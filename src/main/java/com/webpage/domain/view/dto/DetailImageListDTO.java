@@ -1,6 +1,6 @@
 package com.webpage.domain.view.dto;
 
-import com.webpage.domain.view.entity.ImageListEntity;
+import com.webpage.domain.view.entity.DetailImageListEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,21 +12,19 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ImageListDTO {
+public class DetailImageListDTO {
 
-    private Long id;
-    private Integer menuId;
-    private Integer tabId;
+    private Integer id;
+    private Long imageId;
     private String mimeType;
     private String name;
     private String path;
     private Long size;
     private Date writeDate;
 
-    public ImageListEntity toEntity() {
-        return ImageListEntity.builder()
-                .menuId(menuId).tabId(tabId).mimeType(mimeType)
+    public DetailImageListEntity toEntity() {
+        return DetailImageListEntity.builder()
+                .imageId(imageId).mimeType(mimeType)
                 .name(name).path(path).size(size).writeDate(writeDate).build();
     }
-
 }

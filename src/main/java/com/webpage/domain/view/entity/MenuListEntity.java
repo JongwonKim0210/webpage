@@ -20,6 +20,9 @@ public class MenuListEntity {
     @Column(name = "menuName", nullable = false, length = 50)
     private String menuName;
 
+    @Column(name = "menuTitle", length = 500)
+    private String menuTitle;
+
     @Column(name = "menuComment", length = 500)
     private String menuComment;
 
@@ -27,7 +30,7 @@ public class MenuListEntity {
     private Integer menuOrder;
 
     public MenuListDTO convertToMenuListDTO() {
-        return MenuListDTO.builder().id(id).menuName(menuName)
+        return MenuListDTO.builder().id(id).menuName(menuName).menuTitle(menuTitle)
                 .menuComment(menuComment).menuOrder(menuOrder).build();
     }
 

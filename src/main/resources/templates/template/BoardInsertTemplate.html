@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+	<link rel="stylesheet" th:href="@{/toast/toastui-editor.min.css}" />
+	<script type="text/javascript" th:src="@{/toast/toastui-editor-all.min.js}"></script>
+	<th:block th:replace="/layout/Header.html"/>
+	<body>
+	<section id="tab_gallery" class="bg-grey" style="padding-top: 60px;">
+		<div class="container">
+			<div class="main_product p-top-100">
+				<div class="head_title text-center fix">
+					<h2 class="text-uppercase">게시판 신규등록</h2>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="tab_content" class="roomy-40 fix">
+		<div class="container" id="contentArea" data-th-attr="item1=${menuId}, item2=${tabId}">
+			<div style="padding-bottom: 5px;">
+				<input type="text" id="title" class="form-control" placeholder="제목을 입력해 주세요.">
+			</div>
+			<div id="editor" class="roomy-40 fix"></div>
+			<div style="float: right">
+				<div>
+					<input type="checkbox" id="secret" onchange="usePasswd()">
+					<label for="secret">비밀글</label>
+				</div>
+				<div>
+					<input type="text" class="form-control" id="passwd" placeholder="암호를 입력해 주세요." style="width: 200px; height: 30px;" disabled>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="roomy-40 fix">
+		<div class="container text-right fix">
+			<div class="business_btn">
+				<a th:href="@{/details/{menuId}/{tabId} (menuId=${menuId}, tabId=${tabId})}" class="btn button">취소</a>
+				<a class="btn button" onclick="boardUpload()">등록</a>
+			</div>
+		</div>
+	</section>
+	</body>
+	<th:block th:replace="/layout/Footer.html"/>
+	<script>
+        const Editor = toastui.Editor;
+        const editor = new Editor({
+            el: document.querySelector('#editor'),
+            height: '600px',
+            initialEditType: 'WYSIWYG',
+            previewStyle: 'vertical'
+        });
+
+	</script>
+</html>

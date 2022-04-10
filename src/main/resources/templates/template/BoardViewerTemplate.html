@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+	<th:block th:replace="/layout/Header.html"/>
+	<body>
+		<section id="tab_board" class="bg-grey roomy-40 fix" style="padding-top:  60px;">
+			<div class="container">
+				<div class="main_product p-top-100">
+					<div class="head_title text-center fix">
+						<h2 class="text-uppercase" th:text="${menuInfo.menuName}"></h2>
+						<h5 th:if="${'' != menuInfo.menuTitle || null != menuInfo.menuTitle}" th:text="${menuInfo.menuTitle}"></h5>
+					</div>
+				</div>
+				<h2 class="board-title text-center" th:text="${boardInfo.title}"></h2>
+				<h4 class="board-info text-right">
+					<i th:text="${boardInfo.writer}"></i>
+					<i th:text="${#calendars.format(boardInfo.writeDate, 'yyyy-MM-dd')}"></i>
+				</h4>
+				<p class="board-body" th:text="${boardInfo.content}"></p>
+			</div>
+		</section>
+	</body>
+	<th:block th:replace="/layout/Footer.html"/>
+</html>

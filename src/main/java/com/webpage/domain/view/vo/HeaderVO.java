@@ -1,23 +1,19 @@
 package com.webpage.domain.view.vo;
 
 import com.webpage.domain.view.dto.MenuListDTO;
+import com.webpage.domain.view.dto.TabListDTO;
 import com.webpage.domain.view.entity.MenuListEntity;
+import com.webpage.domain.view.entity.TabListEntity;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
 public class HeaderVO {
-    List<MenuListDTO> menuList;
     private String companyMainPhone;
-
-    public void setMenuList(List<MenuListEntity> entityList) {
-        menuList = new ArrayList<>();
-        for (MenuListEntity e : entityList) {
-            menuList.add(e.convertToMenuListDTO());
-        }
-    }
+    List<Map<String, Object>> menuList;
 }

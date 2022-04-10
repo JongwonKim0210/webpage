@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+	<th:block th:replace="/layout/Header.html"/>
+	<body>
+		<section id="tab_gallery" class="bg-grey roomy-40 fix" style="padding-top: 60px;">
+			<div class="container">
+				<div class="main_product p-top-100">
+					<div class="head_title text-center fix">
+						<h2 class="text-uppercase" th:text="${menuInfo.menuName}"></h2>
+						<h5 th:if="${'' != menuInfo.menuTitle || null != menuInfo.menuTitle}" th:text="${menuInfo.menuTitle}"></h5>
+					</div>
+				</div>
+				<span class="image main">
+					<th:block th:each="row : ${imageInfo}">
+						<img class="image-view" th:src="@{/image/download/{imageId}/{id} (imageId=${row.imageId}, id=${row.id})}" th:alt="${row.name}"/>
+					</th:block>
+				</span>
+			</div>
+		</section>
+	</body>
+	<th:block th:replace="/layout/Footer.html"/>
+</html>

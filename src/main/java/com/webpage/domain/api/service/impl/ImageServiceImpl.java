@@ -1,9 +1,14 @@
 package com.webpage.domain.api.service.impl;
 
 import com.webpage.domain.api.service.ImageService;
+import com.webpage.domain.view.entity.DetailImageListEntity;
+import com.webpage.domain.view.entity.ImageListEntity;
+import com.webpage.domain.view.repository.DetailImageListRepository;
+import com.webpage.domain.view.repository.ImageListRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
@@ -15,15 +20,34 @@ import java.nio.charset.StandardCharsets;
 @Service
 public class ImageServiceImpl implements ImageService {
 
-    @Value("${image.dir}")
-    private String dirPath;
+    @Value("${imagePath}")
+    private String imageUploadPath;
+
+    private ImageListRepository imageList;
+    private DetailImageListRepository detailList;
+
+    @Autowired
+    public ImageServiceImpl(ImageListRepository imageList, DetailImageListRepository detailList) {
+        this.imageList = imageList;
+        this.detailList = detailList;
+    }
 
     @Override
-    public void getImageData(HttpServletRequest request, HttpServletResponse response, int menuId, int tabId, Long imageId) {
-        // TODO : menuId, tabId, imageId로 이미지파일 경로얻어서 이미지 불러오기
+    public void getImageData(HttpServletRequest request, HttpServletResponse response, long imageId) {
+        ImageListEntity requestImageInfo = imageList.findAllById(imageId);
+        setImageData(request, response, requestImageInfo.convertToImageListDTO().getPath());
+    }
 
-        File imageFile = new File("");
-        try (BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(imageFile)); BufferedOutputStream outputStream = new BufferedOutputStream(response.getOutputStream())) {
+    @Override
+    public void getImageData(HttpServletRequest request, HttpServletResponse response, long imageId, int imageDetailId) {
+        DetailImageListEntity requestImageInfo = detailList.findAllByIdAndImageId(imageDetailId, imageId);
+        setImageData(request, response, requestImageInfo.convertToDetailImageListDTO().getPath());
+    }
+
+    private void setImageData(HttpServletRequest request, HttpServletResponse response, String path) {
+        File imageFile = new File(path);
+        try (BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(imageFile));
+             BufferedOutputStream outputStream = new BufferedOutputStream(response.getOutputStream())) {
             if (imageFile.exists()) {
                 String mimeType = "application/x-msdownload";
                 response.setContentType(mimeType);
@@ -47,6 +71,7 @@ public class ImageServiceImpl implements ImageService {
             e.printStackTrace();
         }
     }
+
     private void setDisposition(String fileName, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String browser = getBrowser(request);
         String dispositionPrefix = "attachment; filename=";

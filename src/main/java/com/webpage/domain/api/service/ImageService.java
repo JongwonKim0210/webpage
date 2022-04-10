@@ -5,5 +5,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.PathVariable;
 
 public interface ImageService {
-    void getImageData(HttpServletRequest request, HttpServletResponse response, int menuId, int tabId, Long imageId);
+    void getImageData(HttpServletRequest request, HttpServletResponse response, long imageId);
+    void getImageData(HttpServletRequest request, HttpServletResponse response, long imageId, int imageDetailId);
 }

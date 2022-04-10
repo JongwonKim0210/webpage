@@ -15,8 +15,14 @@ public class ImageController {
 
     private ImageService imageService;
 
-    @RequestMapping("/download/{menuId}/{tabId}/{imageId}")
-    public void getImageData(HttpServletRequest request, HttpServletResponse response, @PathVariable("menuId") int menuId, @PathVariable("tabId") int tabId, @PathVariable("imageId") Long imageId) {
-        imageService.getImageData(request, response, menuId, tabId, imageId);
+    @RequestMapping("/download/{imageId}")
+    public void getImageData(HttpServletRequest request, HttpServletResponse response, @PathVariable("imageId") long imageId) {
+        imageService.getImageData(request, response, imageId);
     }
+
+    @RequestMapping("/download/{imageId}/{detailId}")
+    public void getImageData(HttpServletRequest request, HttpServletResponse response, @PathVariable("imageId") long imageId, @PathVariable("detailId") int detailId) {
+        imageService.getImageData(request, response, imageId, detailId);
+    }
+
 }

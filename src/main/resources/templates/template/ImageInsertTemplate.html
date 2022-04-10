@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+	<th:block th:replace="/layout/Header.html"/>
+	<body>
+	<section id="tab_gallery" class="bg-grey" style="padding-top: 60px;">
+		<div class="container">
+			<div class="main_product p-top-100">
+				<div class="head_title text-center fix">
+					<h2 class="text-uppercase">이미지 게시판 신규등록</h2>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="tab_content" class="roomy-40 fix">
+		<div class="container text-right fix" style="padding-bottom: 20px;">
+			<select id="image-category" th:value="${menuInfo.id}">
+				<option hidden>이미지 카테고리</option>
+				<th:block th:each="row : ${tabInfo}">
+					<option th:if="${row.id == tabId}" th:value="${row.id}" th:text="${row.tabName}" selected/>
+					<option th:unless="${row.id == tabId}" th:value="${row.id}" th:text="${row.tabName}" />
+				</th:block>
+			</select>
+		</div>
+
+		<div class="container">
+			<span class="image main" id="imageViewer">
+			</span>
+			<div class="form-group" style="float: right">
+				<input type="file" accept="image/*" class="btn button" id="fileExplode" onchange="inputImageView()" multiple>
+			</div>
+		</div>
+
+		<div class="container text-right fix">
+			<div class="business_btn">
+				<a th:href="@{/details/{menuId}/{tabId} (menuId=${menuId}, tabId=${tabId})}" class="btn button">취소</a>
+				<a class="btn button" onclick="imageUpload()">등록</a>
+			</div>
+		</div>
+	</section>
+	</body>
+	<th:block th:replace="/layout/Footer.html"/>
+</html>

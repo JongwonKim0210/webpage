@@ -1,30 +1,26 @@
 package com.webpage.domain.view.entity;
 
-import com.webpage.domain.view.dto.ImageListDTO;
+import com.webpage.domain.view.dto.DetailImageListDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.Instant;
 import java.util.Date;
 
 @Entity
 @Builder
 @ToString
 @AllArgsConstructor
-@Table(name = "imageList")
+@Table(name = "detailImageList")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ImageListEntity {
+public class DetailImageListEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idx", nullable = false)
-    private Long id;
+    private Integer id;
 
-    @Column(name = "menuId", nullable = false)
-    private Integer menuId;
-
-    @Column(name = "tabId", nullable = false)
-    private Integer tabId;
+    @Column(name = "imageId", nullable = false)
+    private Long imageId;
 
     @Column(name = "mimeType", length = 50)
     private String mimeType;
@@ -41,11 +37,10 @@ public class ImageListEntity {
     @Column(name = "writeDate", nullable = false)
     private Date writeDate;
 
-    public ImageListDTO convertToImageListDTO() {
-        return ImageListDTO.builder()
-                .id(id).menuId(menuId).tabId(tabId)
-                .mimeType(mimeType).name(name).path(path)
-                .size(size).writeDate(writeDate).build();
+    public DetailImageListDTO convertToDetailImageListDTO() {
+        return DetailImageListDTO.builder().id(id)
+                .imageId(imageId).mimeType(mimeType)
+                .name(name).path(path).size(size).writeDate(writeDate).build();
     }
 
 }

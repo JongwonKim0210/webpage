@@ -29,7 +29,11 @@
 			<!--Theme Responsive css-->
 			<link rel="stylesheet" th:href="@{/assets/css/responsive.css}" />
 
+			<link rel="stylesheet" th:href="@{/isotope/table.css}" />
+			<link rel="stylesheet" th:href="@{/isotope/style.css}" />
 			<!--Home page style-->
+
+			<script type="text/javascript" th:src="@{/isotope/main.js}"></script>
 			<!-- navigation area -->
 			<nav class="navbar navbar-default bootsnav navbar-fixed">
 				<div class="navbar-top bg-grey fix">
@@ -70,7 +74,7 @@
 					<div class="collapse navbar-collapse" id="navbar-menu">
 						<ul class="nav navbar-nav navbar-right">
 							<li th:each="menu : ${header.menuList}">
-								<a th:href="@{/details/{menuId}/1 (menuId=${menu.id})}"><th:block th:text="${menu.menuName}"></th:block></a>
+								<a th:href="@{/details/{menuId}/{tabId} (menuId=${menu.menuId}, tabId=${menu.tabId})}"><th:block th:text="${menu.menuName}"></th:block></a>
 							</li>
 						</ul>
 					</div>

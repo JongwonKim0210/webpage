@@ -1,27 +1,20 @@
 package com.webpage.domain.view.service.impl;
 
-import com.webpage.domain.view.dto.FooterDTO;
-import com.webpage.domain.view.dto.ImageListDTO;
-import com.webpage.domain.view.dto.TabListDTO;
-import com.webpage.domain.view.entity.ImageListEntity;
-import com.webpage.domain.view.entity.TabListEntity;
-import com.webpage.domain.view.repository.ImageListRepository;
+import com.webpage.domain.view.dto.*;
+import com.webpage.domain.view.entity.*;
+import com.webpage.domain.view.repository.*;
 import com.webpage.domain.view.vo.HeaderVO;
-import com.webpage.domain.view.entity.CompanyInfo;
-import com.webpage.domain.view.entity.MenuListEntity;
-import com.webpage.domain.view.repository.CompanyInfoRepository;
-import com.webpage.domain.view.repository.MenuListRepository;
-import com.webpage.domain.view.repository.TabListRepository;
 import com.webpage.domain.view.service.ViewService;
 import com.webpage.domain.view.vo.ViewVO;
+import com.webpage.global.utils.EmptyCheck;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -30,10 +23,12 @@ public class ViewServiceImpl implements ViewService {
     @Value("#{${notice}}")
     Map<String, Integer> noticeInfo;
 
-    private CompanyInfoRepository companyInfo;
-    private MenuListRepository menuList;
-    private TabListRepository tabList;
-    private ImageListRepository imageList;
+    private CompanyInfoRepository companyInfoRepository;
+    private MenuListRepository menuListRepository;
+    private TabListRepository tabListRepository;
+    private ImageListRepository imageListRepository;
+    private BoardListRepository boardListRepository;
+    private DetailImageListRepository detailImageListRepository;
 
     @Override
     public void setCommonLayer(Model model, boolean isHeader, boolean isFooter) {
@@ -43,17 +38,16 @@ public class ViewServiceImpl implements ViewService {
 
     @Override
     public void setHeader(Model model) {
-        List<MenuListEntity> entityList = menuList.findAllByOrderByMenuOrder();
-        CompanyInfo company = companyInfo.findCompanyMainPhoneById(1);
+        CompanyInfo company = companyInfoRepository.findCompanyMainPhoneById(1);
         HeaderVO headerVO = new HeaderVO();
-        headerVO.setMenuList(entityList);
+        headerVO.setMenuList(menuListRepository.findAllByNativeQueryOnd());
         headerVO.setCompanyMainPhone(company.convertToDTO().getCompanyMainPhone());
         model.addAttribute("header", headerVO);
     }
 
     @Override
     public void setFooter(Model model) {
-        CompanyInfo company = companyInfo.findAllById(1);
+        CompanyInfo company = companyInfoRepository.findAllById(1);
         FooterDTO footerDTO = company.convertToDTO();
         model.addAttribute("footer", footerDTO);
     }
@@ -65,13 +59,12 @@ public class ViewServiceImpl implements ViewService {
     }
 
     @Override
-    public String setViewPage(Model model, int menuId, int tabId) {
+    public String setViewPage(Model model, int menuId, int tabId, Pageable pageable) {
         setCommonLayer(model, true, true);
 
-        List<TabListEntity> entityList = tabList.findAllByMenuIdOrderByTabOrder(menuId);
-        TabListEntity entity = tabList.findByIdAndMenuId(tabId, menuId);
+        List<TabListEntity> entityList = tabListRepository.findAllByMenuIdOrderByTabOrder(menuId);
+        TabListEntity entity = tabListRepository.findByIdAndMenuId(tabId, menuId);
         StringBuilder templatePath = new StringBuilder("template/");
-        // TODO : DB 데이터가 없어서 현재 예외 발생 중
         switch (entity.convertToTabListDTO().getTemplateType()) {
             case 0 -> templatePath.append("CompanyInfo");
             case 1 -> templatePath.append("ImageTemplate");
@@ -84,30 +77,72 @@ public class ViewServiceImpl implements ViewService {
             viewVOList.add(ViewVO.builder().menuId(menuId).tabId(tabListDTO.getId()).tabName(tabListDTO.getTabName()).templateType(tabListDTO.getTemplateType()).build());
         }
 
+        MenuListEntity menuListEntity = menuListRepository.findAllById(menuId);
+
         model.addAttribute("menuId", menuId);
+        model.addAttribute("tabId", tabId);
+        model.addAttribute("menuInfo", menuListEntity.convertToMenuListDTO());
         model.addAttribute("tabList", viewVOList);
-        model.addAttribute("tabData", getTabData(menuId, tabId, entity.convertToTabListDTO().getTemplateType()));
+        model.addAttribute("tabData", getTabData(menuId, tabId, entity.convertToTabListDTO().getTemplateType(), pageable));
         return templatePath.toString();
     }
 
-    private List getTabData(int menuId, int tabId, int templateType) {
-        List mainList = mainList = new ArrayList<List<?>>();;
+    private Object getTabData(int menuId, int tabId, int templateType, Pageable pageable) {
+        Page<?> mainList = null;
         if (templateType == 1) {
-            List<ImageListEntity> entities = imageList.findAllByMenuIdAndTabId(menuId, tabId);
+            List<ImageListEntity> entities = imageListRepository.findAllByMenuIdAndTabId(menuId, tabId, pageable);
+            List<ImageListDTO> images = new ArrayList<>();
+            List<List<ImageListDTO>> mainImageList = new ArrayList<>();
             for (int i = 0; i < entities.size(); i++) {
-                List<ImageListDTO> images = new ArrayList<>();
+                images.add(entities.get(i).convertToImageListDTO());
                 if ((i + 1) % 4 == 0) {
-                    mainList.add(images);
+                    mainImageList.add(images);
                     images = new ArrayList<>();
                 }
 
-                images.add(entities.get(i).convertToImageListDTO());
-                // TODO : 이미지 경로 확인해서 API 연결시켜놓기
+                if (i + 1 == entities.size()) {
+                    mainImageList.add(images);
+                }
             }
-        } else if (templateType == 2) {
 
+            EmptyCheck.removeEmptyList(mainImageList);
+            long totalCnt = imageListRepository.countAllByMenuIdAndTabId(menuId, tabId);
+            mainList = new PageImpl(mainImageList, pageable, totalCnt);
+        } else if (templateType == 2) {
+            Sort sort = Sort.by(Sort.Direction.DESC, "writeDate");
+            Pageable boardPageable = PageRequest.of(pageable.getPageNumber(), 10, sort);
+            Page<BoardListEntity> boardPageList = boardListRepository.findAllByMenuIdAndTabId(menuId, tabId, boardPageable);
+            mainList = boardPageList.map(e -> e.convertToBoardListDTO());
         }
 
         return mainList;
+    }
+
+    @Override
+    public void setViewImage(Model model, long id) {
+        List<DetailImageListEntity> entity = detailImageListRepository.findAllByImageId(id);
+        ImageListEntity imageListEntity = imageListRepository.findAllById(id);
+        MenuListEntity menuListEntity = menuListRepository.findAllById(imageListEntity.convertToImageListDTO().getMenuId());
+        model.addAttribute("menuInfo", menuListEntity.convertToMenuListDTO());
+        model.addAttribute("imageInfo", entity.stream().map(e -> e.convertToDetailImageListDTO()).collect(Collectors.toList()));
+    }
+
+    @Override
+    public void setViewBoard(Model model, long id) {
+        BoardListEntity entity = boardListRepository.findAllById(id);
+        BoardListDTO boardListDTO = entity.convertToBoardListDTO();
+        MenuListEntity menuListEntity = menuListRepository.findAllById(boardListDTO.getMenuId());
+        model.addAttribute("menuInfo", menuListEntity.convertToMenuListDTO());
+        model.addAttribute("boardInfo", boardListDTO);
+    }
+
+    @Override
+    public void setInsertPage(Model model, int menuId, int tabId, boolean isImage) {
+        MenuListEntity menuListEntity = menuListRepository.findAllById(menuId);
+        List<TabListEntity> tabListEntityList = tabListRepository.findAllByMenuId(menuId);
+        model.addAttribute("menuId", menuId);
+        model.addAttribute("tabId", tabId);
+        model.addAttribute("menuInfo", menuListEntity.convertToMenuListDTO());
+        model.addAttribute("tabInfo", tabListEntityList.stream().map(e -> e.convertToTabListDTO()).collect(Collectors.toList()));
     }
 }

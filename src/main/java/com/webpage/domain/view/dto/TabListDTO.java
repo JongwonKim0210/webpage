@@ -1,11 +1,15 @@
 package com.webpage.domain.view.dto;
 
 import com.webpage.domain.view.entity.TabListEntity;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class TabListDTO {
     private Integer id;
     private Integer menuId;
