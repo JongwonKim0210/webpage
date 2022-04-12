@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+	<th:block th:replace="/layout/Header.html"/>
+	<body>
+	<section id="tab_menu" class="bg-grey roomy-40 fix" style="padding-top: 60px;">
+		<div class="container">
+			<div class="main_product p-top-100">
+				<div class="head_title text-center fix">
+					<h2 class="text-uppercase" th:text="${menuInfo.menuName}"></h2>
+					<h5 th:if="${'' != menuInfo.menuTitle || null != menuInfo.menuTitle}" th:text="${menuInfo.menuTitle}"></h5>
+				</div>
+			</div>
+			<ul id="portfolio_menu" class="menu" style="text-align: center;">
+				<li th:each="tab : ${tabList}" style="display: inline-block;">
+					<button onclick="moveTab(this)" data-th-attr="item1=${tab.menuId}, item2=${tab.tabId}" data-filter="*" class="my_btn btn_active" style="margin-left: 10px; margin-right: 10px;">
+						<th:block th:text="${tab.tabName}"></th:block>
+					</button>
+				</li>
+			</ul>
+		</div>
+	</section>
+
+	<th:block th:if="${tabId == 1}">
+		<th:block th:replace="/template/companyinfo/AboutDetail.html"/>
+	</th:block>
+	<th:block th:if="${tabId == 2}">
+		<th:block th:replace="/template/companyinfo/CompanyHistory.html"/>
+	</th:block>
+	<th:block th:if="${tabId == 3}">
+		<th:block th:replace="/template/companyinfo/OrganizationInfo.html"/>
+	</th:block>
+	<th:block th:if="${tabId == 4}">
+		<th:block th:replace="/template/companyinfo/certificateInfo.html"/>
+	</th:block>
+	<th:block th:if="${tabId == 5}">
+		<th:block th:replace="/template/companyinfo/CompanyRoute.html"/>
+	</th:block>
+
+	</body>
+	<th:block th:replace="/layout/Footer.html"/>
+</html>

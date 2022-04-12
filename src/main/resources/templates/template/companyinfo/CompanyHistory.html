@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+	<th:block th:fragment="CompanyHistory(CompanyHistory)">
+		<section id="route" class="roomy-40 fix">
+			<div class="container">
+				<div class="main_product">
+					<div class="head_title text-center fix">
+						<h2 class="text-uppercase">회사연혁</h2>
+					</div>
+				</div>
+				<div class="table-wrapper">
+					<div class="date-area" th:each="row : ${tabData}" th:text="${row.year} + '.' + ${row.month}">
+						<div class="history-area" th:text="${row.history}"></div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</th:block>
+</html>

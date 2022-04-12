@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+	<th:block th:fragment="route(route)">
+		<section id="route" class="roomy-40 fix">
+			<div class="container">
+				<div class="main_product">
+					<div class="head_title text-center fix">
+						<h2 class="text-uppercase">오시는길</h2>
+					</div>
+				</div>
+				<img class="image-view" th:src="@{/images/default/companyAddress.jpg}"/>
+			</div>
+		</section>
+
+		<section id="address">
+			<div class="container">
+				<div class="table-wrapper">
+					<table>
+						<colgroup>
+							<col class="table-15">
+							<col class="table-50">
+						</colgroup>
+						<tbody>
+							<tr>
+								<td class="text-center">주소</td>
+								<td th:text="${tabData.companyAddress}"></td>
+							</tr>
+							<tr>
+								<td class="text-center">전화</td>
+								<td th:text="${tabData.companyMainPhone}"></td>
+							</tr>
+							<tr>
+								<td class="text-center">팩스</td>
+								<td th:text="${tabData.companyFax}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</section>
+	</th:block>
+</html>

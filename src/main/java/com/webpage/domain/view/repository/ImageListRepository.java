@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface ImageListRepository extends JpaRepository<ImageListEntity, Long> {
 
+    ImageListEntity findAllByMenuIdAndTabIdOrderByMenuId(int menuId, int tabId);
     List<ImageListEntity> findAllByMenuIdAndTabId(int menuId, int tabId);
     long countAllByMenuIdAndTabId(int menuId, int tabId);
     ImageListEntity findAllById(long id);

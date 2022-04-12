@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+	<th:block th:fragment="certificate(certificate)">
+		<section id="route" class="roomy-40 fix">
+			<div class="container">
+				<div class="main_product">
+					<div class="head_title text-center fix">
+						<h2 class="text-uppercase">인증현황</h2>
+					</div>
+				</div>
+				<div class="row" th:each="row : ${tabData}">
+					<div class="col-sm-3" th:each="image : ${row}">
+						<div class="port_item xs-m-top-30">
+							<div class="port_img">
+								<img class="image-list" th:src="@{/image/download/{imageId} (imageId=${image.id})}" th:alt="${image.name}" onclick="showImage(this)"/>
+							</div>
+							<div class="port_overlay text-center m-top-10">
+								<h5><th:block th:text="${image.name}"></th:block></h5>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</th:block>
+</html>

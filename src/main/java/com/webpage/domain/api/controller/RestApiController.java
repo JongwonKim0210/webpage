@@ -3,13 +3,11 @@ package com.webpage.domain.api.controller;
 import com.webpage.domain.api.service.RestApiService;
 import com.webpage.domain.view.dto.BoardListDTO;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Map;
 
 
 @RestController
@@ -28,4 +26,5 @@ public class RestApiController {
     public ResponseEntity uploadBoardData(@RequestBody BoardListDTO boardListDTO) {
         return apiService.uploadBoard(boardListDTO);
     }
+
 }

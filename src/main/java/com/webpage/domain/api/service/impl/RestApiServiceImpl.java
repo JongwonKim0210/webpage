@@ -8,8 +8,6 @@ import com.webpage.domain.view.entity.ImageListEntity;
 import com.webpage.domain.view.repository.BoardListRepository;
 import com.webpage.domain.view.repository.DetailImageListRepository;
 import com.webpage.domain.view.repository.ImageListRepository;
-import com.webpage.domain.view.service.impl.ViewServiceImpl;
-import com.webpage.global.utils.ConvertUtils;
 import com.webpage.global.utils.HashUtils;
 import com.webpage.global.utils.UploadFileSave;
 import org.apache.commons.io.FilenameUtils;
@@ -20,12 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.lang.reflect.Field;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class RestApiServiceImpl implements RestApiService {

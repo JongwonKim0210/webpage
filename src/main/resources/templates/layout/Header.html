@@ -51,7 +51,8 @@
 									<ul class="list-inline">
 										<li><a href="http://wintechkorea.net/"><i class="fa fa-dribbble"></i></a></li>
 										<li><a href="/index">home</a></li>
-										<li><a href="/login">login</a></li>
+										<li th:if="${null == session.loginInfo}"><a href="/login">login</a></li>
+										<li th:if="${null != session.loginInfo}"><a th:href="@{/logout}">logout</a></li>
 									</ul>
 								</div>
 							</div>

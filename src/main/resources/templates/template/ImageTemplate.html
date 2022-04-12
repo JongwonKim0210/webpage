@@ -23,17 +23,16 @@
         <section id="tab_gallery" class="roomy-60 fix">
             <div class="container">
                 <div class="row" th:each="row : ${tabData.content}">
-                        <div class="col-sm-3" th:each="image : ${row}">
-                            <div class="port_item xs-m-top-30">
-                                <div class="port_img">
-                                    <img class="image-list" th:src="@{/image/download/{imageId} (imageId=${image.id})}" th:alt="${image.name}" onclick="showImage(this)"/>
-                                </div>
-                                <div class="port_overlay text-center m-top-10">
-                                    <h5><th:block th:text="${image.name}"></th:block></h5>
-                                    <h5><th:block th:text="${index}"></th:block></h5>
-                                </div>
+                    <div class="col-sm-3" th:each="image : ${row}">
+                        <div class="port_item xs-m-top-30">
+                            <div class="port_img">
+                                <img class="image-list" th:src="@{/image/download/{imageId} (imageId=${image.id})}" th:alt="${image.name}" onclick="showImage(this)"/>
+                            </div>
+                            <div class="port_overlay text-center m-top-10">
+                                <h5><th:block th:text="${image.name}"></th:block></h5>
                             </div>
                         </div>
+                    </div>
                 </div>
             </div>
             <!-- End off container -->

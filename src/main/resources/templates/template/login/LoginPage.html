@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+	<link rel="stylesheet" th:href="@{/assets/css/all.min.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/font.googleapis.com.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/sb-admin-2.min.css}">
+
+	<script type="text/javascript" th:src="@{/isotope/login.js}"></script>
+
+	<section id="login" class="roomy-40 fix">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-xl-10 col-lg-12 col-md-9">
+					<div class="card o-hidden border-0 shadow-lg my-5">
+						<div class="card-body p-0">
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="p-5">
+										<div class="text-center">
+											<h1 class="h4 text-gray-900 mb-4">로그인</h1>
+										</div>
+										<div class="form-group">
+											<input type="email" class="form-control form-control-user" id="email" placeholder="Enter Email Address...">
+										</div>
+										<div class="form-group">
+											<input type="password" class="form-control form-control-user" id="password" placeholder="Password">
+										</div>
+										<a class="btn btn-primary btn-user btn-block" onclick="loginProcess()">Login</a>
+										<hr>
+										<div class="text-center">
+											<a th:href="@{/reset}" class="small">비밀번호 찾기</a>
+										</div>
+										<div class="text-center">
+											<a th:href="@{/create}" class="small">신규계정생성</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	</section>
+</html>

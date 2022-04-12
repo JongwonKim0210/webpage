@@ -6,6 +6,7 @@ import com.webpage.domain.view.repository.*;
 import com.webpage.domain.view.vo.HeaderVO;
 import com.webpage.domain.view.service.ViewService;
 import com.webpage.domain.view.vo.ViewVO;
+import com.webpage.global.utils.CommonUtils;
 import com.webpage.global.utils.EmptyCheck;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,6 +30,7 @@ public class ViewServiceImpl implements ViewService {
     private ImageListRepository imageListRepository;
     private BoardListRepository boardListRepository;
     private DetailImageListRepository detailImageListRepository;
+    private CompanyHistoryRepository companyHistoryRepository;
 
     @Override
     public void setCommonLayer(Model model, boolean isHeader, boolean isFooter) {
@@ -66,7 +68,7 @@ public class ViewServiceImpl implements ViewService {
         TabListEntity entity = tabListRepository.findByIdAndMenuId(tabId, menuId);
         StringBuilder templatePath = new StringBuilder("template/");
         switch (entity.convertToTabListDTO().getTemplateType()) {
-            case 0 -> templatePath.append("CompanyInfo");
+            case 0 -> templatePath.append("CompanyInfoTemplate");
             case 1 -> templatePath.append("ImageTemplate");
             case 2 -> templatePath.append("BoardTemplate");
         }
@@ -88,34 +90,39 @@ public class ViewServiceImpl implements ViewService {
     }
 
     private Object getTabData(int menuId, int tabId, int templateType, Pageable pageable) {
-        Page<?> mainList = null;
         if (templateType == 1) {
             List<ImageListEntity> entities = imageListRepository.findAllByMenuIdAndTabId(menuId, tabId, pageable);
-            List<ImageListDTO> images = new ArrayList<>();
-            List<List<ImageListDTO>> mainImageList = new ArrayList<>();
-            for (int i = 0; i < entities.size(); i++) {
-                images.add(entities.get(i).convertToImageListDTO());
-                if ((i + 1) % 4 == 0) {
-                    mainImageList.add(images);
-                    images = new ArrayList<>();
-                }
-
-                if (i + 1 == entities.size()) {
-                    mainImageList.add(images);
-                }
-            }
-
+            List<List<ImageListDTO>> mainImageList = CommonUtils.sortImageList(entities, ImageListDTO.class);
             EmptyCheck.removeEmptyList(mainImageList);
             long totalCnt = imageListRepository.countAllByMenuIdAndTabId(menuId, tabId);
-            mainList = new PageImpl(mainImageList, pageable, totalCnt);
+            return new PageImpl(mainImageList, pageable, totalCnt);
         } else if (templateType == 2) {
             Sort sort = Sort.by(Sort.Direction.DESC, "writeDate");
             Pageable boardPageable = PageRequest.of(pageable.getPageNumber(), 10, sort);
             Page<BoardListEntity> boardPageList = boardListRepository.findAllByMenuIdAndTabId(menuId, tabId, boardPageable);
-            mainList = boardPageList.map(e -> e.convertToBoardListDTO());
+            return boardPageList.map(e -> e.convertToBoardListDTO());
+        } else {    // 회사정보구역 탭 아이디(고정값)에 따라 분기처리되어 값을 던져주어야 함
+            Object object = null;
+            switch (tabId) {
+                case 2 :
+                    List<CompanyHistoryEntity> companyHistoryEntityList = companyHistoryRepository.findAll();
+                    object = companyHistoryEntityList.stream().map(e -> e.convertToCompanyHistoryDTO()).collect(Collectors.toList());
+                    break;
+                case 3 :
+                    ImageListEntity organizationInfo = imageListRepository.findAllByMenuIdAndTabIdOrderByMenuId(menuId, tabId);
+                    object = organizationInfo.convertToImageListDTO();
+                    break;
+                case 4 :
+                    List<ImageListEntity> certificateList = imageListRepository.findAllByMenuIdAndTabId(menuId, tabId);
+                    object = CommonUtils.sortImageList(certificateList, ImageListDTO.class);
+                    break;
+                case 5 :
+                    CompanyInfo companyInfo = companyInfoRepository.findAllById(1);
+                    object =  companyInfo.convertToDTO();
+                    break;
+            }
+            return object;
         }
-
-        return mainList;
     }
 
     @Override
