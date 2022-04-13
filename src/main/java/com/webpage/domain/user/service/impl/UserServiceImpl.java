@@ -10,9 +10,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -22,13 +24,10 @@ public class UserServiceImpl implements UserService {
     private UserInfoRepository userInfoRepository;
 
     @Override
-    public ResponseEntity loginCheck(UserInfoDTO userInfoDTO, HttpServletRequest request) {
+    public Map<String, Object> loginCheck(UserInfoDTO userInfoDTO, HttpServletRequest request) {
         String hashPassword = HashUtils.SHA_3_512.getHashValue(userInfoDTO.getPassword());
         Optional<UserinfoEntity> userinfo = userInfoRepository.findAllByIdAndPassword(userInfoDTO.getId(), hashPassword);
-        HttpStatus status = HttpStatus.UNAUTHORIZED;
-        if (!userinfo.isEmpty()) {
-            status = userInfoDTO.getId().equalsIgnoreCase(userinfo.get().convertToUserInfoDTO().getId()) ? HttpStatus.OK : HttpStatus.UNAUTHORIZED;
-        }
+        HttpStatus status = checkUserInfo(userInfoDTO.getId(), userinfo);
 
         if (status == HttpStatus.OK) {
             HttpSession session = request.getSession();
@@ -39,6 +38,32 @@ public class UserServiceImpl implements UserService {
             userInfoRepository.save(userInfoDTO.toEntity());
         }
 
-        return new ResponseEntity<>(status);
+        return createResultValue(status, userInfoDTO);
+    }
+
+    @Override
+    public Map<String, Object> createUser(UserInfoDTO userInfoDTO) {
+        String hashPassword = HashUtils.SHA_3_512.getHashValue(userInfoDTO.getPassword());
+        UserInfoDTO insertDto = UserInfoDTO.builder().id(userInfoDTO.getId()).password(hashPassword).auth("U").regDate(new Date()).build();
+        userInfoRepository.save(insertDto.toEntity());
+        Optional<UserinfoEntity> userinfo = userInfoRepository.findAllByIdAndPassword(userInfoDTO.getId(), hashPassword);
+        HttpStatus status = checkUserInfo(userInfoDTO.getId(), userinfo);
+        return createResultValue(status, insertDto);
+    }
+
+    private Map<String, Object> createResultValue(HttpStatus status, Object obj) {
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("status", status);
+        resultMap.put("result", obj);
+        return resultMap;
+    }
+
+    private HttpStatus checkUserInfo(String requestId, Optional<UserinfoEntity> selectResult) {
+        HttpStatus status = HttpStatus.UNAUTHORIZED;
+        if (!selectResult.isEmpty()) {
+            status = requestId.equalsIgnoreCase(selectResult.get().convertToUserInfoDTO().getId()) ? HttpStatus.OK : HttpStatus.UNAUTHORIZED;
+        }
+
+        return status;
     }
 }

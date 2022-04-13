@@ -1,4 +1,4 @@
-function loginProcess() {
+function checkInputValue() {
     const e = document.getElementById("email").value;
     const p = document.getElementById("password").value;
 
@@ -14,18 +14,34 @@ function loginProcess() {
     d.id = e;
     d.password = p;
 
+    return d;
+}
+
+function loginProcess() {
     let options = {
         method: 'POST',
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(d)
+        body: JSON.stringify(checkInputValue())
     }
 
-    sendAjax("/login/check", options, "/", "이메일 또는 비밀번호가 틀립니다.");
+    sendAjax("/login/check", options, "/", "이메일 또는 비밀번호가 틀립니다.", "");
 }
 
-function sendAjax(urlAddress, options, returnAddress, errorMessage) {
+function createUser() {
+    let options = {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(checkInputValue())
+    }
+
+    sendAjax("/login/create", options, "/login", "사용중인 아이디입니다.", "회원가입이 완료되었습니다.");
+}
+
+function sendAjax(urlAddress, options, returnAddress, errorMessage, successMessage) {
     let submit = async () => {
         let url = urlAddress;
 
@@ -34,6 +50,9 @@ function sendAjax(urlAddress, options, returnAddress, errorMessage) {
             let json = await response;
             console.log(json);
             if (json.status == 200) {
+                if (null != successMessage || "" != successMessage) {
+                    alert(successMessage);
+                }
                 location.href = returnAddress;
             } else {
                 alert(errorMessage);

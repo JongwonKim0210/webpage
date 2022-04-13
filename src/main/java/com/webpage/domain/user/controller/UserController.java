@@ -31,6 +31,6 @@ public class UserController {
 
     @GetMapping("/create")
     public String createAccount(Model model) {
-        return null;
+        return "template/login/UserCreate";
     }
 }
