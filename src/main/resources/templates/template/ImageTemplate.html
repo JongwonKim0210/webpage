@@ -71,7 +71,7 @@
                 </nav>
             </div>
 
-            <div class="container text-right fix" th:if="${null != session.loginInfo}">
+            <div class="container text-right fix" th:if="${null != session.loginInfo && 'A' == session.isAdmin}">
                 <div class="business_btn">
                     <a th:href="@{/image/new/{menuId}/{tabId} (menuId=${menuId}, tabId=${tabId})}" class="btn button">작성</a>
                 </div>

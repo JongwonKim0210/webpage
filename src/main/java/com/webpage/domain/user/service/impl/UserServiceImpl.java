@@ -32,6 +32,7 @@ public class UserServiceImpl implements UserService {
         if (status == HttpStatus.OK) {
             HttpSession session = request.getSession();
             session.setAttribute("loginInfo", userinfo.get().convertToUserInfoDTO());
+            session.setAttribute("isAdmin", userinfo.get().convertToUserInfoDTO().getAuth());
             UserinfoEntity userinfoEntity = userinfo.get();
             userInfoDTO = userinfoEntity.convertToUserInfoDTO();
             userInfoDTO.setLoginIP(CommonUtils.getClientIP(request));
