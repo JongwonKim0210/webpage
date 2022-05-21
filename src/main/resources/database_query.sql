@@ -58,6 +58,8 @@ CREATE TABLE `tabList` (
     `tabName` VARCHAR(50) NOT NULL COLLATE 'utf8mb3_general_ci',
     `tabComment` VARCHAR(500) NULL DEFAULT '' COLLATE 'utf8mb3_general_ci',
     `tabOrder` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0',
+    `templateType` tinyint(3) unsigned NOT NULL DEFAULT 1 COMMENT '1 : 이미지, 2 : 게시판',
+    `useTab` ENUM('Y','N') NOT NULL DEFAULT 'Y' COLLATE 'utf8mb3_general_ci',
     PRIMARY KEY (`idx`) USING BTREE
 )
 COMMENT='메뉴별 탭 목록'
@@ -95,7 +97,7 @@ COMMENT='이미지목록'
 COLLATE='utf8mb3_general_ci'
 ENGINE=InnoDB;
 
-create table detailimagelist(
+create table detailImageList(
     `idx` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
     `imageId` INT UNSIGNED NULL DEFAULT 0 NOT NULL,
     `mimeType` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb3_general_ci',

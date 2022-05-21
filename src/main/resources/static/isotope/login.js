@@ -50,7 +50,7 @@ function sendAjax(urlAddress, options, returnAddress, errorMessage, successMessa
             let json = await response;
             console.log(json);
             if (json.status == 200) {
-                if (null != successMessage || "" != successMessage) {
+                if ("" != successMessage) {
                     alert(successMessage);
                 }
                 location.href = returnAddress;

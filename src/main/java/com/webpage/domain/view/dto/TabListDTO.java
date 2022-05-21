@@ -17,9 +17,10 @@ public class TabListDTO {
     private String tabComment;
     private int tabOrder;
     private int templateType;
+    private String useTab;
 
     public TabListEntity toEntity() {
-        return TabListEntity.builder().id(id)
+        return TabListEntity.builder().id(id).useTab(useTab)
                 .menuId(menuId).tabName(tabName).tabComment(tabComment)
                 .tabOrder(tabOrder).templateType(templateType).build();
     }

@@ -31,8 +31,11 @@ public class TabListEntity {
     @Column(name = "templateType", nullable = false)
     private int templateType;
 
+    @Column(name = "useTab", nullable = false)
+    private String useTab;
+
     public TabListDTO convertToTabListDTO() {
-        return TabListDTO.builder().id(id)
+        return TabListDTO.builder().id(id).useTab(useTab)
                 .menuId(menuId).tabName(tabName).tabComment(tabComment)
                 .tabOrder(tabOrder).templateType(templateType).build();
     }

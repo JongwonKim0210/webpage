@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 	<link rel="stylesheet" th:href="@{/toast/toastui-editor.min.css}" />
 	<script type="text/javascript" th:src="@{/toast/toastui-editor-all.min.js}"></script>
-	<th:block th:replace="/layout/Header.html"/>
+	<th:block th:replace="layout/Header.html :: header"/>
 	<body>
 	<section id="tab_gallery" class="bg-grey" style="padding-top: 60px;">
 		<div class="container">
@@ -41,7 +41,7 @@
 		</div>
 	</section>
 	</body>
-	<th:block th:replace="/layout/Footer.html"/>
+	<th:block th:replace="layout/Footer.html :: footer"/>
 	<script>
         const Editor = toastui.Editor;
         const editor = new Editor({

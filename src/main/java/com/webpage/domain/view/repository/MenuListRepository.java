@@ -10,8 +10,9 @@ import java.util.Map;
 public interface MenuListRepository extends JpaRepository<MenuListEntity, Integer> {
 
     MenuListEntity findAllById(int id);
+    List<MenuListEntity> findAllByIdNot(int id);
     List<MenuListEntity> findAllByOrderByMenuOrder();
 
     @Query(value = "SELECT a.idx AS menuId, a.menuName, b.idx AS tabId FROM menulist a LEFT JOIN tablist b ON a.idx = b.menuId WHERE b.idx is not null GROUP BY a.idx", nativeQuery = true)
-    List<Map<String, Object>> findAllByNativeQueryOnd();
+    List<Map<String, Object>> findAllByNativeQueryOne();
 }

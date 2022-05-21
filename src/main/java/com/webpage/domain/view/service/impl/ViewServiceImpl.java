@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -42,7 +41,7 @@ public class ViewServiceImpl implements ViewService {
     public void setHeader(Model model) {
         CompanyInfo company = companyInfoRepository.findCompanyMainPhoneById(1);
         HeaderVO headerVO = new HeaderVO();
-        headerVO.setMenuList(menuListRepository.findAllByNativeQueryOnd());
+        headerVO.setMenuList(menuListRepository.findAllByNativeQueryOne());
         headerVO.setCompanyMainPhone(company.convertToDTO().getCompanyMainPhone());
         model.addAttribute("header", headerVO);
     }
@@ -51,6 +50,17 @@ public class ViewServiceImpl implements ViewService {
     public void setFooter(Model model) {
         CompanyInfo company = companyInfoRepository.findAllById(1);
         FooterDTO footerDTO = company.convertToDTO();
+        List<TabListEntity> entityList = tabListRepository.findAllByMenuIdAndUseTabNotOrderByTabOrder(1, "N");
+        List<ViewVO> viewVOList = new ArrayList<>();
+        for(TabListEntity tabListEntity : entityList) {
+            TabListDTO tabListDTO = tabListEntity.convertToTabListDTO();
+            viewVOList.add(ViewVO.builder().menuId(tabListDTO.getMenuId()).tabId(tabListDTO.getId()).tabName(tabListDTO.getTabName()).templateType(tabListDTO.getTemplateType()).build());
+        }
+
+        footerDTO.setCompanyViewList(viewVOList);
+
+        List<MenuListEntity> menuListEntityList = menuListRepository.findAllByIdNot(1);
+        footerDTO.setMenuViewList(menuListEntityList.stream().map(MenuListEntity::convertToMenuListDTO).toList());
         model.addAttribute("footer", footerDTO);
     }
 
@@ -64,8 +74,8 @@ public class ViewServiceImpl implements ViewService {
     public String setViewPage(Model model, int menuId, int tabId, Pageable pageable) {
         setCommonLayer(model, true, true);
 
-        List<TabListEntity> entityList = tabListRepository.findAllByMenuIdOrderByTabOrder(menuId);
-        TabListEntity entity = tabListRepository.findByIdAndMenuId(tabId, menuId);
+        List<TabListEntity> entityList = tabListRepository.findAllByMenuIdAndUseTabNotOrderByTabOrder(menuId, "N");
+        TabListEntity entity = tabListRepository.findByIdAndMenuIdAndUseTabNot(tabId, menuId, "N");
         StringBuilder templatePath = new StringBuilder("template/");
         switch (entity.convertToTabListDTO().getTemplateType()) {
             case 0 -> templatePath.append("CompanyInfoTemplate");
@@ -100,13 +110,13 @@ public class ViewServiceImpl implements ViewService {
             Sort sort = Sort.by(Sort.Direction.DESC, "writeDate");
             Pageable boardPageable = PageRequest.of(pageable.getPageNumber(), 10, sort);
             Page<BoardListEntity> boardPageList = boardListRepository.findAllByMenuIdAndTabId(menuId, tabId, boardPageable);
-            return boardPageList.map(e -> e.convertToBoardListDTO());
+            return boardPageList.map(BoardListEntity::convertToBoardListDTO);
         } else {    // 회사정보구역 탭 아이디(고정값)에 따라 분기처리되어 값을 던져주어야 함
             Object object = null;
             switch (tabId) {
                 case 2 :
                     List<CompanyHistoryEntity> companyHistoryEntityList = companyHistoryRepository.findAll();
-                    object = companyHistoryEntityList.stream().map(e -> e.convertToCompanyHistoryDTO()).collect(Collectors.toList());
+                    object = companyHistoryEntityList.stream().map(CompanyHistoryEntity::convertToCompanyHistoryDTO).toList();
                     break;
                 case 3 :
                     ImageListEntity organizationInfo = imageListRepository.findAllByMenuIdAndTabIdOrderByMenuId(menuId, tabId);
@@ -131,7 +141,7 @@ public class ViewServiceImpl implements ViewService {
         ImageListEntity imageListEntity = imageListRepository.findAllById(id);
         MenuListEntity menuListEntity = menuListRepository.findAllById(imageListEntity.convertToImageListDTO().getMenuId());
         model.addAttribute("menuInfo", menuListEntity.convertToMenuListDTO());
-        model.addAttribute("imageInfo", entity.stream().map(e -> e.convertToDetailImageListDTO()).collect(Collectors.toList()));
+        model.addAttribute("imageInfo", entity.stream().map(DetailImageListEntity::convertToDetailImageListDTO).toList());
     }
 
     @Override
@@ -146,10 +156,10 @@ public class ViewServiceImpl implements ViewService {
     @Override
     public void setInsertPage(Model model, int menuId, int tabId, boolean isImage) {
         MenuListEntity menuListEntity = menuListRepository.findAllById(menuId);
-        List<TabListEntity> tabListEntityList = tabListRepository.findAllByMenuId(menuId);
+        List<TabListEntity> tabListEntityList = tabListRepository.findAllByMenuIdAndUseTabNot(menuId, "N");
         model.addAttribute("menuId", menuId);
         model.addAttribute("tabId", tabId);
         model.addAttribute("menuInfo", menuListEntity.convertToMenuListDTO());
-        model.addAttribute("tabInfo", tabListEntityList.stream().map(e -> e.convertToTabListDTO()).collect(Collectors.toList()));
+        model.addAttribute("tabInfo", tabListEntityList.stream().map(TabListEntity::convertToTabListDTO).toList());
     }
 }

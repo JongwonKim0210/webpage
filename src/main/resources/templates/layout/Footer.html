@@ -8,12 +8,13 @@
 						<div class="col-md-3">
 							<div class="widget_item widget_about">
 								<h5 class="text-white">Company</h5>
-								<ul class="m-top-20">
-									<li class="m-top-20"><a href=""><i class="fa fa-angle-right"></i> 회사개요</a></li>
-									<li class="m-top-20"><a href=""><i class="fa fa-angle-right"></i> 연혁</a></li>
-									<li class="m-top-20"><a href=""><i class="fa fa-angle-right"></i> 조직도</a></li>
-									<li class="m-top-20"><a href=""><i class="fa fa-angle-right"></i> 인증현황</a></li>
-									<li class="m-top-20"><a href=""><i class="fa fa-angle-right"></i> 오시는길</a></li>
+								<ul class="m-top-20" th:each="list : ${footer.companyViewList}">
+									<li class="m-top-20">
+										<a th:href="@{/details/{menuId}/{tabId} (menuId=${list.menuId}, tabId=${list.tabId})}">
+											<i class="fa fa-angle-right"></i>
+											<th:block th:text="${list.tabName}"></th:block>
+										</a>
+									</li>
 								</ul>
 							</div><!-- End off widget item -->
 						</div><!-- End off col-md-3 -->
@@ -21,12 +22,15 @@
 						<div class="col-md-3">
 							<div class="widget_item widget_latest sm-m-top-50">
 								<h5 class="text-white">Product Outline</h5>
-								<ul class="m-top-20">
-									<li class="m-top-20"><a href=""><i class="fa fa-angle-right"></i> SYSTEM Hardware</a></li>
-									<li class="m-top-20"><a href=""><i class="fa fa-angle-right"></i> Roller</a></li>
-									<li class="m-top-20"><a href=""><i class="fa fa-angle-right"></i> Hinge</a></li>
-									<li class="m-top-20"><a href=""><i class="fa fa-angle-right"></i> Casement Lock</a></li>
-									<li class="m-top-20"><a href=""><i class="fa fa-angle-right"></i> 기타부품</a></li>
+								<ul class="m-top-20" th:each="list, index : ${footer.menuViewList}">
+									<th:block th:if="${index.index < 5}">
+										<li class="m-top-20">
+											<a th:href="@{/details/{menuId} (menuId=${list.id})}">
+												<i class="fa fa-angle-right"></i>
+												<th:block th:text="${list.menuName}"></th:block>
+											</a>
+										</li>
+									</th:block>
 								</ul>
 							</div><!-- End off widget item -->
 						</div><!-- End off col-md-3 -->

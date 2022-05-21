@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-    <th:block th:replace="/layout/Header.html"/>
+    <th:block th:replace="layout/Header.html :: header"/>
     <body>
 <!--        <section id="tab_menu" class="bg-grey roomy-40 fix" style="padding-top: 60px;">-->
         <section id="tab_menu" class="bg-grey fix" style="padding-top: 60px;">
@@ -79,13 +79,13 @@
                 </nav>
             </div>
 
-            <div class="container text-right fix">
+            <div class="container text-right fix" th:if="${null != session.loginInfo}">
                 <div class="business_btn">
                     <a th:href="@{/board/new/{menuId}/{tabId} (menuId=${menuId}, tabId=${tabId})}" class="btn button">작성</a>
                 </div>
             </div>
         </section>
 
-        <th:block th:replace="/layout/Footer.html"/>
+        <th:block th:replace="layout/Footer.html :: footer"/>
     </body>
 </html>
