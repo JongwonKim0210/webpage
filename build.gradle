@@ -50,3 +50,14 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+tasks.jar {
+    enabled(false)
+}
+tasks.bootJar {
+    enabled(true)
+    archiveClassifier.set("boot")
+    bootJarMainClassName {
+        mainClass.set("com.webpage.WebpageApplication")
+    }
+}
