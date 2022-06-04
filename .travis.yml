@@ -1,0 +1,12 @@
+  // .travis.yml
+  language: java
+  jdk:
+    - openjdk17
+
+  before_install:
+    - chmod +x gradlew
+
+  deploy:
+    provider: heroku
+    api_key: $HEROKU_TOKEN
+    app: "testuncle"
